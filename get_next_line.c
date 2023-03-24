@@ -1,6 +1,7 @@
 //header
 
-char	*ft_gnl_strjoin(char *dest, char *left, char *right, char *leftovers);
+static size_t	*ft_gnl_strjoin(char *dest, char *left, char *right, char *leftovers);
+static size_t	ft_last_line(char *dest, char *buf, char *leftovers);
 
 char	*get_next_line(int fd)
 {
@@ -13,10 +14,10 @@ char	*get_next_line(int fd)
 		leftovers[fd][BUFFER_SIZE + 1] = -1;
 	buf[0] = '\0';
 	ret = (char *)malloc(sizeof(char) * 1);
-	while (42 == 42)
+	while (leftovers[fd][BUFFER_SIZE + 1] != 42)
 	{
 		size = ft_gnl_strjoin(ret, ret, buf, leftovers[fd]);
-		if (leftovers[fd][BUFFER_SIZE + 1] == 42 && size != -1)
+		if (leftovers[fd][BUFFER_SIZE + 1] == 0 && size != -1)
 			return (ft_last_line(ret, buf, leftovers[fd]));
 		if (size == 1)
 			return (ft_get_line(buf, leftovers[fd]));
@@ -25,9 +26,12 @@ char	*get_next_line(int fd)
 		if (size == -1)
 			return (ft_exit_gracefully(ret));
 		if (size == 0)
-			leftovers[fd][BUFFER_SIZE + 1] = 42;
+			leftovers[fd][BUFFER_SIZE + 1] = 0;
 	}
+	return (ft_last_line(ret, buf, leftovers[fd]));
 }
+
+static size_t	ft_last_line(char *ret, char *buf, char *leftovers);
 
 static size_t	ft_gnl_strjoin(char *dest, char *left, char *right, char *leftovers)
 {
