@@ -14,26 +14,26 @@
 char	*get_next_line(int fd)
 {
 	static t_gnldat	data;
-
 	if (fd < 0 || fd > 1023)
 		return ((void *)0);
-	ft_init(*data, fd);
-	if	(checknl(&data) != 0)
-		return (good_ret(&data));
-	while (data.rv > 0)
+	ft_init(&data, fd);
+	while (data->forty_two == 42) 
 	{
+		if (checknl(&data) != 0)
+			return (good_ret(&data));
 		readfunc(&data);
 		if (data.err != 0)
 			return (ft_exit_gracefully(&data));
-		data.ret = ft_strjoin(data.ret, data.buf, 1);
-		if (data.err != 0)
-			return (ft_exit_gracefully(&data));
-		if (checknl(&data) != 0)
-			return (good_ret(&data));
+		if (data.rv == 0)
+			data->forty_two = 0;
+		else
+		{
+			data.ret = ft_strjoin(data.ret, data.buf, 1);
+			if (data.err != 0)
+				return (ft_exit_gracefully(&data));
+		}
 	}
-		if (check(buf) != 0)
-		return good
-	return (ft_last_line(buf, leftovers[fd]));
+	return (ft_last_line(data.ret, leftovers[fd]));
 }
 
 ft init
